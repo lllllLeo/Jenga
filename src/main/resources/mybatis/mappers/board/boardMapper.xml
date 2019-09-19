@@ -1,0 +1,766 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">        <!-- MyBatis의 경우 작성된 XML Mapper는 상단의 파일에서 사용하는 태그들에 대한 정보가 기록된 DTD를 추가 -->
+
+<mapper namespace="board">
+
+
+    <update id="addReadCount">
+		UPDATE
+			tbl_blockReadCount
+		SET
+			blrc_count = blrc_count + 1
+		WHERE
+			blrc_ref = #{bl_uid}
+	</update>
+
+
+    <resultMap id="boardMap" type="HashMap">
+        <result property="bl_uid" column="bl_uid"/>
+        <result property="bl_writer" column="bl_writer"/>
+        <result property="bl_title" column="bl_title"/>
+        <result property="bl_description" column="bl_description" javaType="java.lang.String" jdbcType="CLOB"/>
+        <result property="bl_introduce" column="bl_introduce"/>
+        <result property="bl_mainCtg" column="bl_mainCtg"/>
+        <result property="bl_smCtg" column="bl_smCtg"/>
+        <result property="bl_date" column="bl_date" javaType="java.lang.Long"/>
+        <result property="bl_objId" column="bl_objId"/>
+        <result property="bti_url" column="bti_url"/>
+        <result property="blrc_count" column="blrc_count" javaType="java.lang.Long"/>
+        <result property="mem_nick" column="mem_nick"/>
+        <result property="mem_introduce" column="mem_introduce"/>
+        <result property="mem_profile" column="mem_profile"/>
+
+    </resultMap>
+
+    <resultMap id="infoMap" type="HashMap">
+        <result property="mem_nick" column="mem_nick"/>
+        <result property="mem_level" column="MEM_LEVEL"/>
+        <result property="mem_profile" column="MEM_PROFILE"/>
+        <result property="bti_url" column="BTI_URL"/>
+        <result property="bl_like" column="BL_LIKE"/>
+    </resultMap>
+
+
+    <resultMap id="searchResultMap" type="HashMap">
+        <result property="rnum" column="RNUM"/>
+        <result property="bl_uid" column="BL_UID"/>
+        <result property="bl_writer" column="BL_WRITER"/>
+        <result property="bl_title" column="BL_TITLE"/>
+        <result property="bl_img" column="BL_IMG"/>
+        <result property="bl_mainctg" column="BL_MAINCTG"/>
+        <result property="bl_smctg" column="BL_SMCTG"/>
+        <result property="bl_date" column="BL_DATE"/>
+        <result property="bl_introduce" column="BL_INTRODUCE"/>
+        <result property="bl_count" column="BL_COUNT"/>
+    </resultMap>
+
+    <resultMap id="modfiyResultMap" type="HashMap">
+        <result property="bl_writer" column="bl_writer"/>
+        <result property="bl_title" column="bl_title"/>
+        <result property="bl_description" column="bl_description" javaType="java.lang.String" jdbcType="CLOB"/>
+        <result property="bl_introduce" column="bl_introduce"/>
+        <result property="bl_mainCtg" column="bl_mainCtg"/>
+        <result property="bl_smCtg" column="bl_smCtg"/>
+        <result property="bl_objId" column="bl_objId"/>
+        <result property="bti_url" column="bti_url"/>
+        <result property="bl_date" column="bl_date" javaType="java.lang.Long"/>
+
+    </resultMap>
+
+
+    <select id="getBoardDetailBlock" resultMap="boardMap">
+    SELECT
+         B.bl_uid, B.bl_writer, B.bl_title , B.bl_description,
+            B.bl_introduce,
+            (SELECT mctg_name FROM tbl_mcategory WHERE mctg_uid = (SELECT bl_mainCtg FROM tbl_block WHERE bl_uid = B.bl_uid)) AS bl_mainCtg,
+            (SELECT sctg_name FROM tbl_scategory WHERE sctg_uid = (SELECT bl_smctg FROM tbl_block WHERE bl_uid = B.bl_uid)) AS bl_smCtg,
+         B.bl_date,
+         B.bl_objId,
+         (select bti_url from tbl_thumbimg where bti_ref = B.bl_uid) as bti_url,
+         R.blrc_count,
+         M.mem_nick,
+         M.mem_introduce,
+         M.mem_profile
+      FROM tbl_block B INNER JOIN
+            tbl_blockReadCount R
+         ON
+            R.blrc_ref = B.bl_uid
+         INNER JOIN
+            tbl_memInfo M
+         ON
+            M.mem_iuid = B.bl_writer
+      WHERE
+         B.bl_uid = #{bl_uid}
+   </select>
+
+    <select id="getBoardDetailTags" resultType="String">
+		SELECT
+			bt_name
+		FROM
+			tbl_blockTags
+		WHERE
+			bt_ref = #{bl_uid}
+	</select>
+
+    <insert id="writeViewBlock">
+		INSERT INTO
+    		tbl_block
+				(bl_uid, bl_writer, bl_title, bl_introduce, bl_description, bl_mainCtg, bl_smCtg, bl_date, bl_objId)
+		VALUES
+				(#{bl_uid}, #{bl_writer}, #{bl_title}, #{bl_introduce}, #{bl_description}, #{bl_mainCtg}, #{bl_smCtg}, #{bl_date}, #{bl_objId})
+	</insert>
+
+    <insert id="writeViewThumbImg">
+		INSERT INTO
+			tbl_thumbImg
+				(bti_ref, bti_url)
+		VALUES
+				(#{bl_uid}, #{uploadName})
+	</insert>
+
+    <insert id="writeViewTag">
+		INSERT INTO
+			tbl_blockTags
+				(bt_ref, bt_name)
+		VALUES
+				(#{bl_uid}, #{tag})
+	</insert>
+    <!-- 조회수 테이블 초기화 -->
+    <insert id="writeViewReadCount">
+		INSERT INTO
+			tbl_blockReadCount
+				(blrc_ref)
+		VALUES
+				(#{bl_uid})
+	</insert>
+
+    <!-- 좋아요 체크 -->
+    <select id="likeCheck" resultType="java.lang.Integer">
+		SELECT
+			count(*)
+		from
+			tbl_blocklikes
+		where
+			blk_ref = #{bl_iuid} and blk_member = #{session_mem_iuid}
+
+	</select>
+
+    <!-- 좋아요 증가 -->
+    <insert id="addLike">
+		INSERT INTO
+			tbl_blockLikes
+				(blk_ref,blk_member)
+        VALUES
+				(#{bl_iuid},#{session_mem_iuid})
+	</insert>
+
+    <!-- 좋아요 취소 -->
+    <delete id="cancelLike">
+        DELETE FROM
+            tbl_blockLikes
+        WHERE
+            blk_ref = #{bl_iuid} and blk_member = #{session_mem_iuid}
+    </delete>
+
+
+    <select id="getModifyBlock" resultMap="modfiyResultMap">
+		SELECT
+			B.bl_writer, B.bl_title, B.bl_description, B.bl_introduce,
+			(select mctg_name from tbl_mCategory where mctg_uid = B.bl_mainCtg) as bl_mainCtg ,
+			(select sctg_name from tbl_sCategory where sctg_uid = B.bl_smCtg ) as bl_smCtg, B.bl_objId, B.bl_date,
+			I.bti_url
+		FROM
+			tbl_block B
+			INNER JOIN
+				tbl_thumbImg I
+			ON
+				I.bti_ref = B.bl_uid
+		WHERE
+			B.bl_uid = #{bl_uid}
+	</select>
+
+    <select id="getUploadName" resultType="String">
+		SELECT
+			bti_url
+		FROM
+			tbl_thumbImg
+		WHERE
+			bti_ref = #{bl_uid}
+	</select>
+
+    <update id="modifyViewBoard">
+		UPDATE
+			tbl_block
+		SET
+			bl_writer = #{bl_writer},
+			bl_title = #{bl_title},
+			bl_description = #{bl_description},
+			bl_mainCtg = (select mctg_uid from tbl_mCategory where mctg_name = #{bl_mainCtg}),
+			bl_smCtg = (select sctg_uid from tbl_sCategory where sctg_name = #{bl_smCtg})
+		WHERE
+			bl_uid = #{bl_uid}
+	</update>
+
+    <update id="modifyViewThumbImg">
+		UPDATE
+			tbl_thumbImg
+		SET
+			bti_url = #{uploadName}
+		WHERE
+			bti_ref = #{bl_uid}
+	</update>
+
+    <update id="modifyViewTag">
+		UPDATE
+			tbl_blockTags
+		SET
+			bt_name = #{tag}
+		WHERE
+			bt_ref = #{bl_uid}
+	</update>
+
+    <select id="checkBmksPath" resultType="java.lang.Integer">
+		SELECT
+			count(*)
+		FROM
+			tbl_blpath
+		WHERE
+			bp_iuid = #{session_iuid}
+	</select>
+
+    <insert id="insertBmksPath">
+		INSERT INTO
+			tbl_blpath
+			(bp_iuid, bp_path, bp_date, bp_browstype, bp_booktype)
+		VALUES
+			(#{session_iuid}, #{blockPathDTO.bp_path}, sysdate, #{blockPathDTO.bp_browstype}, #{blockPathDTO.bp_booktype})
+	</insert>
+
+    <update id="updateBmksPath">
+		UPDATE
+			tbl_blpath
+		SET
+			bp_path = #{blockPathDTO.bp_path}, bp_date = sysdate, bp_browstype = #{blockPathDTO.bp_browstype}, bp_booktype = #{blockPathDTO.bp_booktype}
+		WHERE
+			bp_iuid = #{session_iuid}
+	</update>
+
+    <select id="getBookMarkFromHTML" resultType="String">
+		SELECT
+			bp_path
+		FROM
+			tbl_blpath
+		WHERE
+			bp_iuid = #{session_iuid}
+	</select>
+
+    <delete id="deleteBlock">
+		DELETE FROM
+			tbl_block
+		WHERE
+			bl_uid = #{bl_uid}
+	</delete>
+
+    <select id="mCtgAllUids" resultType="String">
+		SELECT
+			mctg_uid
+		FROM
+			tbl_mCategory
+	</select>
+
+    <select id="mCtgAllNames" resultType="String">
+		SELECT
+			mctg_name
+		FROM
+			tbl_mCategory
+		WHERE
+			mctg_uid = #{uid}
+	</select>
+
+    <select id="sCtgAllNames" resultType="String">
+		SELECT
+			sctg_name
+		FROM
+			tbl_sCategory
+		WHERE
+			sctg_ref = #{uid}
+	</select>
+
+    <select id="sctgUID" resultType="String">
+		SELECT
+			SCTG_UID
+		FROM
+		    tbl_SCATEGORY
+		WHERE
+		    SCTG_NAME = #{bl_smCtg}
+	</select>
+
+    <select id="searchTitle" resultMap="searchResultMap" parameterType="map">
+        select
+        b.*
+        from
+        (SELECT
+        rownum as rnum, a.bl_uid, a.bl_writer, a.bl_title, a.bl_mainctg, a.bl_smctg, a.bl_date, a.bl_introduce, (
+        select COUNT(*) from tbl_blockLikes where blk_ref = a.bl_uid) as bl_count,
+        (select bti_url from tbl_thumbimg where bti_ref = a.bl_uid) as bl_img
+        FROM
+        (select
+        *
+        from
+        tbl_block
+        where
+        <foreach collection="search" item="item" separator="or">
+            bl_title Like '%'||#{item}||'%'
+        </foreach>
+        order by
+        bl_date desc)a) b
+        where
+        <![CDATA[ b.rnum >= #{startrow} and b.rnum  <= #{endrow} ]]>
+    </select>
+
+    <select id="countSearchTitle" resultType="int">
+        SELECT
+        count(*)
+        FROM
+        tbl_block
+        where
+        <foreach collection="search" item="item" separator="or">
+            bl_title Like '%'||#{item}||'%'
+        </foreach>
+    </select>
+
+
+    <select id="mctgUID" resultType="String">
+		SELECT
+			MCTG_UID
+		FROM
+		    tbl_MCATEGORY
+		WHERE
+		    MCTG_NAME = #{bl_smCtg}
+	</select>
+
+    <select id="searchName" resultMap="searchResultMap" parameterType="map">
+ <![CDATA[
+
+            select
+                    b.*
+                from
+                    (SELECT
+                        rownum as rnum, a.bl_uid, a.bl_writer, a.bl_title, a.bl_mainctg, a.bl_smctg, a.bl_date, a.bl_introduce, (
+                            SELECT
+                                COUNT(*)
+                                FROM
+                                tbl_blockLikes
+                            where
+                                blk_ref = a.bl_uid
+                        ) as bl_count,
+                        (select bti_url from tbl_thumbimg where bti_ref = a.bl_uid) as bl_img
+                     FROM
+                        (select
+                              *
+                        from
+                            tbl_block
+                        where
+                            BL_WRITER = (SELECT
+                                            MEM_IUID
+                                        FROM
+                                            TBL_MEMINFO
+                                        WHERE
+                                            MEM_NICK LIKE '%'||#{search}||'%'
+                                        )
+                        order by BL_DATE desc))a) b
+                where
+                <![CDATA[ b.rnum >= #{startrow} and b.rnum  <= #{endrow}
+        ]]>
+
+	</select>
+
+    <select id="countSearchName" resultType="int">
+		SELECT
+			count(*)
+		FROM
+			tbl_block
+		where
+				BL_WRITER = (SELECT
+				MEM_IUID
+				FROM
+				TBL_MEMINFO
+				WHERE
+				MEM_NICK LIKE '%'||#{search}||'%'
+				)
+	</select>
+
+    <select id="searchTag" resultMap="searchResultMap">
+
+	  select
+		b.*
+		from
+			(SELECT
+				rownum as rnum, a.bl_uid, a.bl_writer, a.bl_title, a.bl_mainctg, a.bl_smctg, a.bl_date, a.bl_introduce, (
+					SELECT
+						COUNT(*)
+						FROM
+						tbl_blockLikes
+					where
+						blk_ref = a.bl_uid
+				) as bl_count,
+				(select bti_url from tbl_thumbimg where bti_ref = a.bl_uid) as bl_img
+			 FROM
+				(select distinct
+					*
+				from
+					tbl_block b
+						inner join
+							tbl_blocktags bt
+						on
+							b.bl_uid = bt.bt_ref
+				where
+					bt.BT_NAME = #{search}
+				order by BL_DATE desc)
+        )a) b
+			<![CDATA[  b.rnum >= #{startrow} and b.rnum <= #{endrow}
+        ]]>
+
+    </select>
+
+    <select id="countSearchTag" resultType="int">
+		select distinct
+		 	count(*)
+		from
+		 	tbl_block b
+		 	 	inner join
+		 	 	 	tbl_blocktags bt
+		 	 	on
+		 	 	 	b.bl_uid = bt.bt_ref
+        where
+         	bt.BT_NAME = #{search}
+	</select>
+
+    <insert id="setSearchKeyword">
+		INSERT INTO
+			 tbl_keyword
+		values
+		     (#{search},#{session_iuid},systimestamp)
+	</insert>
+
+    <insert id="follow">
+		INSERT INTO
+			tbl_follow
+		VALUES
+		 	(#{bl_writer}, #{session_iuid})
+	</insert>
+
+    <select id="followCheck" resultType="int">
+		SELECT
+			count(*)
+		FROM
+			TBL_FOLLOW
+		WHERE
+			FL_IUID = #{bl_writer} and fl_follower = #{session_iuid}
+	</select>
+
+    <delete id="unFollow">
+		DELETE FROM
+			tbl_follow
+		WHERE
+			FL_IUID = #{bl_writer} and FL_FOLLOWER = #{session_iuid}
+	</delete>
+
+    <select id="getFollowerList" resultType="MemberDTO">
+		select
+		 	m.MEM_IUID, m.MEM_NICK, m.MEM_PROFILE, m.MEM_LEVEL, m.MEM_JOINDATE
+		from
+			tbl_meminfo m
+			 	inner join
+			 	 	tbl_follow f
+			 	on
+			 	 	m.MEM_IUID = f.FL_IUID
+		where
+		 	f.FL_FOLLOWER = #{session_iuid}
+	</select>
+
+    <select id="getFollowerBoard" resultType="BoardDTO">
+
+			select
+				*
+			from
+			 	tbl_block
+			where
+			 	bl_writer = (select
+			 		 			fl_iuid
+			 		 		 from
+			 		 		  	tbl_follow
+			 		 		 where
+			 		 		 	fl_iuid = #{follow_iuid} and fl_follower = #{my_iuid})
+			order by BL_DATE desc
+	</select>
+
+
+    <!-- 좋아요 갯수 -->
+    <select id="likeCount" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			tbl_blockLikes
+		where
+			 blk_ref = #{bl_iuid}
+	</select>
+
+
+    <select id="getMyBlock" resultMap="searchResultMap" parameterType="map">
+		select
+		b.*
+		from
+		(SELECT
+		rownum as rnum, a.bl_uid, a.bl_writer, a.bl_title, a.bl_mainctg, a.bl_smctg, a.bl_date, a.bl_introduce, (
+		select COUNT(*) from tbl_blockLikes where blk_ref = a.bl_uid) as bl_count,
+		(select bti_url from tbl_thumbimg where bti_ref = a.bl_uid) as bl_img
+		FROM
+		(select
+		*
+		from
+		tbl_block
+		where
+		  bl_writer = #{my_iuid}
+		order by
+		bl_date desc)a) b
+	</select>
+
+
+    <!-- 인기 블록 뽑기 -->
+    <select id="getPopBlock" resultType="BoardDTO">
+		select
+		 	 b.BL_TITLE,b.BL_INTRODUCE,b.BL_UID,b.BL_mainctg,b.BL_SMCTG,th.bti_url,b.bl_date,bl.bl_like,rc.BLRC_COUNT,mi.MEM_PROFILE,mi.MEM_NICK
+		from
+			 tbl_block b
+		inner join
+		 	 (select
+		 	  		BLK_REF, count(*) bl_like
+		 	  from
+		 	   		tbl_blocklikes
+		 	  group by
+		 	  		(blk_ref)
+		 	  Having
+		 	   		count(*) > 1) bl
+		 	  on
+		 	   		b.BL_UID = bl.blk_REF
+		 	  			inner join
+		 	   					tbl_THUMBIMG th
+		 	 			on
+		 	   					b.BL_UID = th.bti_ref
+		 	   					 		inner join
+		 	   					 		 		tbl_blockreadcount rc
+		 	   					 		on
+		 	   					 		 		b.BL_UID = rc.BLRC_REF
+		 	   					 		 		 		inner join
+		 	   					 		 		 		 		tbl_meminfo mi
+		 	   					 		 		 		on
+		 	   					 		 		 		 		b.BL_WRITER = mi.MEM_IUID
+	</select>
+
+
+    <select id="getMyFavoriteBlocks" resultMap="searchResultMap">
+		select
+		b.*
+		from
+		(SELECT
+		rownum as rnum, a.bl_uid, a.bl_writer, a.bl_title, a.bl_mainctg, a.bl_smctg, a.bl_date, a.bl_introduce, (
+		select COUNT(*) from tbl_blockLikes where blk_ref = a.bl_uid) as bl_count,
+		(select bti_url from tbl_thumbimg where bti_ref = a.bl_uid) as bl_img
+		FROM
+		(select
+		*
+		from
+		tbl_block
+		where
+		bl_uid in (select blk_ref from tbl_blocklikes where blk_member = #{memUid})
+		order by
+		bl_date desc)a) b
+	</select>
+
+
+    <select id="getMyFavoirteBlockWithParam" resultMap="searchResultMap" parameterType="map">
+        select
+        b.*
+        from
+        (SELECT
+        rownum as rnum, a.bl_uid, a.bl_writer, a.bl_title, a.bl_mainctg, a.bl_smctg, a.bl_date, a.bl_introduce, (
+        select COUNT(*) from tbl_blockLikes where blk_ref = a.bl_uid) as bl_count,
+        (select bti_url from tbl_thumbimg where bti_ref = a.bl_uid) as bl_img
+        FROM
+        (select
+        *
+        from
+        tbl_block
+        where
+        bl_uid in (select blk_ref
+        from tbl_blocklikes
+        where blk_member = #{memUid})
+        order by
+        bl_date desc)a
+
+        <trim prefix="WHERE" prefixOverrides="AND|OR">
+            <if test="category != null">
+                a.bl_smctg = (select sctg_uid from tbl_sCategory where sctg_name = #{category})
+            </if>
+
+            <choose>
+                <when test="searchOps.equals('keyword')">
+                    and
+                    <foreach collection="keyword" item="item" separator="or">
+                        a.bl_title Like '%'||#{item}||'%'
+                    </foreach>
+                </when>
+
+                <when test="searchOps.equals('author')">
+                    and a.bl_writer in (select mem_iuid
+                    from tbl_memInfo where
+                    <foreach collection="keyword" item="item" separator="or">
+                        mem_nick Like '%'||#{item}||'%'
+                    </foreach>
+                </when>
+
+                <when test="searchOps.equals('tag')">
+                    and a.bl_uid in (select bt_ref from tbl_blocktags
+                    where
+                    <foreach collection="keyword" item="item" separator="or">
+                        bt_name Like '%'||#{item}||'%'
+                    </foreach>
+                </when>
+            </choose>
+     </trim>
+
+        ) b
+    </select>
+
+
+    <select id="searchImgTitle" resultType="Map" resultMap="infoMap" parameterType="java.util.List">
+
+        select
+        *
+        from
+        (SELECT
+        rownum rnum,MEM_NICK,MEM_LEVEL,MEM_PROFILE, BTI_URL,NVL(bl_like,0) as bl_like
+        from
+        (select
+        *
+        FROM
+        tbl_block b
+        inner join
+        tbl_thumbimg t
+        on
+        b.bl_uid = t.bti_ref
+        inner join
+        TBL_MEMINFO m
+        on
+        b.BL_WRITER = m.MEM_IUID
+        left outer join
+        (select
+        blk_ref, count(*) bl_like
+        from
+        tbl_blockLikes
+        group by blk_ref) bl
+        on
+        b.bl_uid = bl.blk_ref
+        where
+        <foreach collection="list" item="search" separator="or">
+            bl_title Like '%'||#{search}||'%'
+        </foreach>
+        order by b.BL_DATE desc))
+        where
+        rnum >= #{startrow} and rnum <![CDATA[ <= #{endrow} ]]>
+    </select>
+
+    <select id="searchImgName" resultType="Map" resultMap="infoMap">
+		select
+			*
+		from
+			(select
+				rownum rnum,MEM_NICK,MEM_LEVEL,MEM_PROFILE, BTI_URL,NVL(bl_like,0) as bl_like, bl_date
+			from
+				(select
+					*
+				from
+					tbl_block b
+						inner join
+							tbl_thumbimg t
+						on
+							b.bl_uid = t.bti_ref
+								inner join
+									tbl_meminfo m
+								on
+									b.BL_WRITER = m.MEM_IUID
+										left outer join
+											(select
+												blk_ref, count(*) bl_like
+											from
+												tbl_blockLikes group by blk_ref) bl
+											on
+												b.bl_uid = bl.blk_ref
+											where
+												b.bl_writer =  (SELECT
+																	mem_iuid
+															    FROM
+																	tbl_meminfo
+																where
+																	mem_nick = #{search})
+																order by BL_DATE desc))
+		where
+		    rnum >= #{startrow} and rnum <![CDATA[ <= #{endrow}
+        ]]>
+    </select>
+
+    <select id="searchImgTag" resultType="Map" resultMap="infoMap">
+
+		select
+			*
+		from
+			(SELECT
+				rownum rnum, MEM_NICK,MEM_LEVEL,MEM_PROFILE, BTI_URL,NVL(bl_like,0) as bl_like,bl_date
+			FROM
+				(select distinct
+					m.MEM_NICK,m.MEM_LEVEL,m.MEM_PROFILE,t.BTI_URL,b.BL_DATE,bl.bl_like
+				from
+					tbl_block b
+						inner join
+							tbl_thumbimg t
+						on
+							b.bl_uid = t.bti_ref
+								inner join
+									TBL_BLOCKTAGS bt
+								on
+									b.bl_uid = bt.bt_ref
+											inner join
+												TBL_MEMINFO m
+											on
+												b.BL_WRITER = m.MEM_IUID
+													left outer join
+														(select distinct
+														 		blk_ref, count(*) bl_like
+														from
+																tbl_blockLikes group by blk_ref) bl
+												  	on b.bl_uid = bl.blk_ref
+				where
+					bt.BT_NAME = #{search} order by bl_date desc))
+		where
+		 	rnum >= #{startrow} and rnum <![CDATA[ <= #{endrow}
+        ]]>
+    </select>
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
