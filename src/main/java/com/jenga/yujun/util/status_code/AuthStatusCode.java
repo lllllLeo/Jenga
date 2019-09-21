@@ -1,7 +1,7 @@
 package com.jenga.yujun.util.status_code;
 
 
-import hi.im.jenga.util.SimpleEnumModel;
+import com.jenga.yujun.util.SimpleEnumModel;
 
 public enum AuthStatusCode implements SimpleEnumModel {
 

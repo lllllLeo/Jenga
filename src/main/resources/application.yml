@@ -1,1 +1,89 @@
-sss
+
+spring:
+  data:
+    oracle:
+      url: jdbc:oracle:thin:@localhost:1521/orcl
+      username: jengayujun
+      password: leokim
+      driver-class-name:
+        oracle :
+          jdbc :
+            driver :
+              OracleDriver
+
+    mongo:
+      url: mongodb://localhost:27017/jengayujun
+      username: jengayujun
+      password: leokim
+
+  mybatis:
+    mapper-locations: classpath:mappers/**/*.xml
+
+  resources:
+    static-locations: classpath:/resources/static/
+
+---
+# Social Login
+social:
+  naver:
+    client_id: FMkvrKxBJWMA2Xzp6p_j
+    client_secret: 5bAmjyaLbz
+    redirect_uri: http://localhost:8181/navercallback
+
+  google:
+    client_id: 959434867955-ehgubusprstlcpsvu384dpkb74cgkgso.apps.googleusercontent.com
+    client_secret: cngXfbtAemzkJdevsIhgzlqz
+    redirect_uri: http://localhost:8181/googlecallback
+
+  facebook:
+    client_id: 250897642291708
+    client_secret: f6b18835ee8f09978f076accf881b3be
+    redirect_uri: http://localhost:8181/facebookcallback
+
+  kakao:
+    client_id: e9e9d85d400f11b33233847471d528cc
+    client_secret: pz9C0Bvz8SsoxxjuePNP1xSb30sfzCAi
+    redirect_uri: http://localhost:8181/kakaocallback
+
+#AES256
+aes:
+  secretkey: jengaisveryawesomeprojectawesome
+
+---
+
+# Master info
+email:
+  master: Jenga Admin
+# Google mail
+  gmail:
+    mailid: imjengamaster
+    mailpass: jengajenga12
+    address: imjengamaster@gmail.com
+# Find password
+  findpwd:
+    subject: This is email that contains temporal password
+# Auth email form
+  authmail:
+    subject: This email that contains authorized key
+
+  temp_password: /WEB-INF/email-forms/tempPasswordEmailForm.html
+  auth_key: /WEB-INF/email-forms/authKeyEmailForm.html
+
+
+
+
+---
+
+# Path
+#TODO 이 filepath가 무슨 패슨지모르기때문에 이건 다음에 바꾸기
+filepath:
+  path: D:/jengaResource/upload/
+
+bookmark:
+  root_path: D:/jengaResource/upload
+  absolute_path: D:/jengaResource/upload/bookmarks/
+
+image resource:
+  root_path: D:/jengaResource/upload/img
+  profile_path: D:/jengaResource/upload/img/profile/
+  block_path: D:/jengaResource/upload/img/block/

@@ -1,6 +1,8 @@
 package com.jenga.yujun.member.util.cipher;
 
-import org.apache.commons.codec.binary.Base64;
+//import org.apache.commons.codec.binary.Base64;
+// 이 밑에꺼 자동추가됨
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 

@@ -1,5 +1,6 @@
 package com.jenga.yujun.member.util.login;
 
+
 import com.github.scribejava.core.builder.api.DefaultApi20;
 
 public class FacebookLoginApi extends DefaultApi20 {

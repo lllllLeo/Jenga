@@ -1,7 +1,4 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-
+<html xmlns:th="http://www.thymeleaf.org">
 <style>
 
 .loginService{}
@@ -68,16 +65,16 @@
           <li class="nav-item">
          
          <!-- 세션 존재여부에 따라 로그인, 로그아웃 여부가 다르게 보임 -->
-         <c:choose>
-            <c:when test="${sessionScope.Member ne null}">
+         <th:switch>
+            <th:case test="${sessionScope.Member ne null}">
             <a class="nav-link" name="loginBtn" value="1">LOGOUT</a>
-            </c:when>
+            </th:case>
             
-            <c:otherwise>
+            <th:case>
              <a class="nav-link" name="loginBtn" value="0">LOGIN</a>
             
-            </c:otherwise>
-          </c:choose>
+            </th:case>
+          </th:switch>
           </li>
           
 

@@ -67,6 +67,7 @@ public class FacebookLoginUtil implements LoginUtil{
         }
         return null;
     }
+
     /* 세션 유효성 검증을 위한 난수 생성기 */
     public String generateRandomString() {
         return UUID.randomUUID().toString();

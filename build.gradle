@@ -27,12 +27,18 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.0'
     implementation 'org.springframework.boot:spring-boot-starter-mail'
-    implementation 'org.springframework.boot:spring-boot-starter-security'
-    implementation 'org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:2.1.8.RELEASE'
+//    implementation 'org.springframework.boot:spring-boot-starter-security'
+//    implementation 'org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:2.1.8.RELEASE'
     implementation 'org.springframework:spring-context-support'
     implementation 'com.sun.mail:javax.mail'
     implementation 'org.json:json:20190722'
     implementation 'com.googlecode.json-simple:json-simple:1.1.1'
+    implementation 'com.github.scribejava:scribejava-apis:6.0.0'
+    implementation 'com.github.scribejava:scribejava-core:6.0.0'
+    implementation 'org.jsoup:jsoup:1.11.3'
+
+
+
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
