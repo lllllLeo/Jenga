@@ -65,10 +65,10 @@ public class MemberController {
 
     }
 
-    @Value("#{data['image.profile_path']}")
+    @Value("${image_resource.profile_path}")
     private String profile_absolute_path;
 
-    @Value("#{data['image.root_path']}")
+    @Value("${image_resource.root_path}")
     private String image_root_path;
 
 

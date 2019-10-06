@@ -39,7 +39,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 
 	<!-- SELECT sm_id FROM tbl_SMember WHERE sm_id = #{aes_sid}-->
-	<select id="getExistMember" resultType="MemberDTO">
+	<select id="getExistMember" resultType="com.jenga.yujun.member.dto.MemberDTO">
 	SELECT
 		*
 	FROM
@@ -149,7 +149,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	    em_id = #{em_id} and em_pwd = #{em_pwd}
 	</select>
 
-	<select id="getMemInfo" resultType="MemberDTO">
+	<select id="getMemInfo" resultType="com.jenga.yujun.member.dto.MemberDTO">
 	SELECT
 		  *
 	FROM
@@ -212,7 +212,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
    </select>
 
 
-	<select id = "modMemberInfoGET" resultType="MemberDTO">
+	<select id = "modMemberInfoGET" resultType="com.jenga.yujun.member.dto.MemberDTO">
 	SELECT
 		mem_nick AS "mem_nick", mem_profile AS "mem_profile", mem_introduce AS "mem_introduce"
 	FROM
@@ -239,7 +239,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		em_ref = #{encodedUid}
 	</update>
 
-	<select id="getMemInfoSession" resultType="MemberDTO">
+	<select id="getMemInfoSession" resultType="com.jenga.yujun.member.dto.MemberDTO">
 	SELECT
 		*
 	FROM
@@ -257,7 +257,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		mem_iuid = #{memUid}
 	</select>
 
-	<select id="getUserInfo" resultType="MemberDTO">
+	<select id="getUserInfo" resultType="com.jenga.yujun.member.dto.MemberDTO">
   	SELECT
   		mem_nick, mem_profile, mem_introduce
 	FROM

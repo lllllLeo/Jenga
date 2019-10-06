@@ -9,7 +9,7 @@ import java.util.Map;
 @Component("authEmailEmailForm")
 public class AuthKeyEmailForm extends EmailForm {
 
-    @Value("#{props['auth_key']}")
+    @Value("${email.auth_key}")
     private String filePath;
 
     @Override

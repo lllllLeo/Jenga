@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE tiles-definitions PUBLIC 
     "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN" 
-    "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+    "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 <tiles-definitions>
 
 	<!-- 기본 템플릿 (navbar / header/ footer) -->
 
 	<definition name="basic"
-		template="/WEB-INF/tiles/layout/basicTemplate.jsp">
+		template="/templates/tiles/layout/basicTemplate.html">
 
 		<put-attribute name="headResources"
-			value="/WEB-INF/tiles/source/headResources.jsp" />
+			value="/templates/tiles/source/headResources.html" />
 
 
 		<put-attribute name="navbar"
-			value="/WEB-INF/tiles/component/navbar.jsp" />
+			value="/templates/tiles/component/navbar.html" />
 
 
 		<put-attribute name="footer"
-			value="/WEB-INF/tiles/component/footer.jsp" />
+			value="/templates/tiles/component/footer.html" />
 
 		<put-attribute name="footResources"
-			value="/WEB-INF/tiles/source/footResources.jsp" />
+			value="/templates/tiles/source/footResources.html" />
 			
 			
 	</definition>
@@ -29,7 +29,7 @@
 
 	<definition name="*/*" extends="basic">
 		<put-attribute name="content"
-			value="/WEB-INF/views/{1}/{2}.jsp" />
+			value="/templates/views/{1}/{2}.jsp" />
 	</definition>
 
 

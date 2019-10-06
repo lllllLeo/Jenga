@@ -1,6 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8" %>
-
+<html xmlns:th="http://www.thymeleaf.org">
 
 <div class="wrapper">
     <div class="main">
@@ -48,14 +46,14 @@
                 <div class="col-md-3 col-sm-4" id="bkCard" style="display : none">
                     <div class="card card-blog text-center">
                         <div class="card-image">
-                                <img name="bk_image" onerror="this.src = '${pageContext.request.contextPath}/resources/assets/img/image_placeholder.jpg'"
+                                <img name="bk_image" onerror="this.src = '@{static-resource/assets/img/image_placeholder.jpg}'"
                                      src="" alt="Rounded Image" class="img-rounded img-responsive">
                             <br><br>
                             <div class="text"><p name="bk_title" class="name"></p></div>
 
                             <div class="card-body details-center" style="padding : 10px">
                                     <div class="author w-50 text-center">
-                                        <img name ="user_profile" src="" onerror="this.src = '${pageContext.request.contextPath}/resources/assets/img/placeholder.jpg'"
+                                        <img name ="user_profile" src="" onerror="this.src = '@{static-resource/assets/img/placeholder.jpg}'"
                                              alt="Circle Image" class="img-circle img-no-padding img-responsive">
                                         <div class="text">
                                             <div class="row">
@@ -260,7 +258,7 @@
             $dummy.find("p[name='likeCount']").html(block.bl_count);
             console.log(block);
             if(block.hasOwnProperty("bl_img"))
-            $dummy.find("img[name='bk_image']").attr("src", block.bl_img);
+            $dummy.find("img[name='bk_image']").attr("th:src", block.bl_img);
             $.ajax({
 
                url : "/getUserInfo",
@@ -269,7 +267,7 @@
                success : function(response){
 
                     $dummy.find(".author").find(".text").find("span[name='user_nick']").html(response.nick);
-                    $dummy.find(".author").find("img[name='user_profile']").attr("src", response.profile);
+                    $dummy.find(".author").find("img[name='user_profile']").attr("th:src", response.profile);
 
                 },
                 error : function(xhs, status, error){

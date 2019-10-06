@@ -1,7 +1,8 @@
 package com.jenga.yujun.board.service;
 
 
-import com.jenga.yujun.board.dao.MongoDAO;
+
+import com.jenga.yujun.board.repository.MongoDAO;
 import com.jenga.yujun.board.dto.MongoDTO;
 import com.jenga.yujun.member.dto.MemberDTO;
 import org.json.JSONObject;

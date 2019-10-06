@@ -1,4 +1,3 @@
-
 <taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles">
 <!DOCTYPE html>
 <html lang="ko">
@@ -11,16 +10,22 @@
 
 <title>Jenga! 지식을 쌓고 빼고 즐기세요.</title>
 
-<tiles:insertAttribute name="headResources"/>
+<head th:replace="component/headResources"/>
+<!--<tiles:insertAttribute name="headResources"/>-->
 
 </head>
 <body>
-<tiles:insertAttribute name="navbar"/>
-<tiles:insertAttribute name="content" />
-<tiles:insertAttribute name="footer"/>
+    <header th:replace="component/header :: headerFragment"/>
+    <div layout:fragment="content" />
+    <footer th:replace="component/footer :: footerFragment"/>
+
+<!--<tiles:insertAttribute name="navbar"/>-->
+<!--<tiles:insertAttribute name="content" />-->
+<!--<tiles:insertAttribute name="footer"/>-->
 
 </body>
 
-<tiles:insertAttribute name="footResources"/>
+  <footer th:replace="component/footer:: footerFragment"></footer>
+<!--<tiles:insertAttribute name="footResources"/>-->
 
 </html>

@@ -10,10 +10,10 @@
 		<setting name="jdbcTypeForNull" value="NULL" />
 	</settings>
 	
-  <typeAliases>
-	  <package name="com.jenga.yujun.board.dto"/>
-	  <package name="com.jenga.yujun.member.dto"/>
-  </typeAliases>
+  <!--<typeAliases>-->
+	  <!--<package name="com.jenga.yujun.board.dto"/>-->
+	  <!--<package name="com.jenga.yujun.member.dto"/>-->
+  <!--</typeAliases>-->
 
 	<typeHandlers>
 		<typeHandler handler="com.jenga.yujun.board.util.CustomDateHandler" javaType="java.util.Date" jdbcType="DATE"/>

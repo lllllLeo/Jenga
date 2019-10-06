@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"  pageEncoding="UTF-8"%>
+<html xmlns:th="http://www.thymeleaf.org">
 <div class="wrapper">
     <div class="main">
         <div id="mainSection" class="section">
@@ -49,7 +49,7 @@
                         <div class="card card-plain text-center">
                             <div class="card-image">
                                 <a href="#paper-kit">
-                                    <img src="${pageContext.request.contextPath}/resources/assets/img/sections/pavel-kosov.jpg" alt="Rounded Image" class="img-rounded img-responsive">
+                                    <img th:src="@{static-resource/assets/img/sections/pavel-kosov.jpg}" alt="Rounded Image" class="img-rounded img-responsive">
                                 </a>
                                 <br><br>
                                 <div class="text"><span class="name">제목입니다... 제목...</span></div>
@@ -57,7 +57,7 @@
                                 <div class="card-body details-center">
                                     <a href="#paper-kit">
                                         <div class="author">
-                                            <img src="${pageContext.request.contextPath}/resources/assets/img/faces/joe-gardner-2.jpg" alt="Circle Image" class="img-circle img-no-padding img-responsive">
+                                            <img th:src="@{static-resource/assets/img/faces/joe-gardner-2.jpg}" alt="Circle Image" class="img-circle img-no-padding img-responsive">
                                             <div class="text">
                                                 <span class="name">Jane Doe</span>
                                                 <div class="meta">Drawn on 23 Nov</div>
@@ -88,7 +88,7 @@
                         <div class="card card-plain text-center">
                             <div class="card-image">
                                 <a href="#paper-kit">
-                                    <img src="${pageContext.request.contextPath}/resources/assets/img/sections/pavel-kosov.jpg" alt="Rounded Image" class="img-rounded img-responsive">
+                                    <img th:src="@{static-resource/assets/img/sections/pavel-kosov.jpg}" alt="Rounded Image" class="img-rounded img-responsive">
                                 </a>
                                 <br><br>
                                 <div class="text"><span class="name">제목입니다... 제목...</span></div>
@@ -96,7 +96,7 @@
                                 <div class="card-body details-center">
                                     <a href="#paper-kit">
                                         <div class="author">
-                                            <img src="${pageContext.request.contextPath}/resources/assets/img/faces/joe-gardner-2.jpg" alt="Circle Image" class="img-circle img-no-padding img-responsive">
+                                            <img th:src="@{static-resource/assets/img/faces/joe-gardner-2.jpg}" alt="Circle Image" class="img-circle img-no-padding img-responsive">
                                             <div class="text">
                                                 <span class="name">Jane Doe</span>
                                                 <div class="meta">Drawn on 23 Nov</div>
@@ -157,7 +157,7 @@
                     $innerIndicator.append($indicatorChild);
 
                     let $carouselChild = $("<div>").addClass("carousel-item text-center");
-                    let $img = $("<img>").addClass("d-block img-fluid w-100 h-75").attr("src", nowPage.src).attr("onerror", 'this.src="${pageContext.request.contextPath}/resources/assets/img/default/no_image4.png"');
+                    let $img = $("<img>").addClass("d-block img-fluid w-100 h-75").attr("src", nowPage.src).attr("onerror", 'this.src="@{static-resource/assets/img/default/no_image4.png"}');
                     let $text;
 
                     if(nowPage.introduce){
@@ -189,7 +189,7 @@
                 let $indicatorChild = $("<li>").attr("data-target", "#carousel-Indicators-Wrapper").attr("data-slide-to", 0).addClass("active");
                 $innerIndicator.append($indicatorChild);
                 let $carouselChild = $("<div>").addClass("carousel-item active text-center");
-                let $img = $("<img>").addClass("d-block img-fluid w-100 h-75").attr("src", "${pageContext.request.contextPath}/resources/assets/img/default/no_image4.png");
+                let $img = $("<img>").addClass("d-block img-fluid w-100 h-75").attr("src", "@{static-resource/assets/img/default/no_image4.png}");
                 $carouselChild.append($img);
                 $innerCarousel.append($carouselChild);
 

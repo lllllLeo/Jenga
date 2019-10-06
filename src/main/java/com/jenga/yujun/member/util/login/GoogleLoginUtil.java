@@ -19,11 +19,11 @@ import java.util.concurrent.ExecutionException;
 public class GoogleLoginUtil implements LoginUtil {
     
     /* 인증 */
-    @Value("#{data['google.client_id']}")
+    @Value("${social.google.client_id}")
     private  String CLIENT_ID;// = "FMkvrKxBJWMA2Xzp6p_j";
-    @Value("#{data['google.client_secret']}")
+    @Value("${social.google.client_secret}")
     private  String CLIENT_SECRET;// ="5bAmjyaLbz";
-    @Value("#{data['google.redirect_uri']}")
+    @Value("${social.google.redirect_uri}")
     private  String REDIRECT_URI;
     private final static String SESSION_STATE = "state_google";
     /*네이버 프로필 조회*/

@@ -468,7 +468,7 @@
 			FL_IUID = #{bl_writer} and FL_FOLLOWER = #{session_iuid}
 	</delete>
 
-    <select id="getFollowerList" resultType="MemberDTO">
+    <select id="getFollowerList" resultType="com.jenga.yujun.member.dto.MemberDTO">
 		select
 		 	m.MEM_IUID, m.MEM_NICK, m.MEM_PROFILE, m.MEM_LEVEL, m.MEM_JOINDATE
 		from
@@ -481,7 +481,7 @@
 		 	f.FL_FOLLOWER = #{session_iuid}
 	</select>
 
-    <select id="getFollowerBoard" resultType="BoardDTO">
+    <select id="getFollowerBoard" resultType="com.jenga.yujun.board.dto.BoardDTO">
 
 			select
 				*
@@ -530,7 +530,7 @@
 
 
     <!-- 인기 블록 뽑기 -->
-    <select id="getPopBlock" resultType="BoardDTO">
+    <select id="getPopBlock" resultType="com.jenga.yujun.board.dto.BoardDTO">
 		select
 		 	 b.BL_TITLE,b.BL_INTRODUCE,b.BL_UID,b.BL_mainctg,b.BL_SMCTG,th.bti_url,b.bl_date,bl.bl_like,rc.BLRC_COUNT,mi.MEM_PROFILE,mi.MEM_NICK
 		from

@@ -1,13 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<html xmlns:th="http://www.thymeleaf.org">
 
 
 
-<script src="${pageContext.request.contextPath}/resources/js/member.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/modal/bookmarkModal.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/modal/memberModal.js"></script>
+<script th:src="@{static-resource/js/member.js}"></script>
+<script th:src="@{static-resource/js/modal/bookmarkModal.js}"></script>
+<script th:src="@{static-resource/js/modal/memberModal.js}"></script>
 
-<jsp:include page="memComponent.html"/>
+<th:include page="memComponent.html"/>
 
 <style>
 
@@ -26,7 +25,7 @@
                 <div class="profile-picture">
                     <div class="fileinput fileinput-new" data-provides="fileinput">
                         <div class="fileinput-new img-no-padding">
-                            <img src="${DTO.mem_profile}" name="profile" alt="프로필 사진" onerror="this.src='${pageContext.request.contextPath}/resources/assets/img/default/no_image.png'">
+                            <img src="${DTO.mem_profile}" name="profile" alt="프로필 사진" onerror="this.src='@{static-resource/assets/img/default/no_image.png'">
                         </div>
                         <div class="fileinput-preview fileinput-exists img-no-padding"></div>
                         <div>

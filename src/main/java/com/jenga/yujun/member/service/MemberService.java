@@ -1,7 +1,7 @@
 package com.jenga.yujun.member.service;
 
 
-import com.jenga.yujun.member.dao.MemberDAO;
+import com.jenga.yujun.member.repository.MemberDAO;
 import com.jenga.yujun.member.dto.EmailMemberDTO;
 import com.jenga.yujun.member.dto.MemberDTO;
 import com.jenga.yujun.member.dto.SocialMemberDTO;
@@ -38,17 +38,20 @@ public class MemberService {
     private SHA256Cipher sha256Cipher;
     private EmailFormFactory emailFormFactory;
 
-    @Value("#{email['email.gmail.address']}")
-    private String mailAddress;
-
-    @Value("#{email['email.master']}")
+    @Value("${email.master}")
     private String masterName;
 
-    @Value("#{email['email.findpwd.subject']}")
+    @Value("${email.gmail.address}")
+    private String mailAddress;
+
+    @Value("${email.findpwd.subject}")
     private String findPasswordEmailSubject;
 
-    @Value("#{email['email.authmail.subject']}")
+    @Value("${email.authmail.subject}")
     private String authEmailSubject;
+
+    public MemberService() {
+    }
 
     public MemberService(MemberDAO dao, AES256Cipher aes256Cipher, JavaMailSender mailSender, SHA256Cipher sha256Cipher, EmailFormFactory emailFormFactory) {
         this.dao = dao;

@@ -28,11 +28,11 @@ import java.util.concurrent.ExecutionException;
 public class KakaoLoginUtil implements LoginUtil {
 
     /* 인증 */
-    @Value("#{data['kakao.client_id']}")
+    @Value("${social.kakao.client_id}")
     private String CLIENT_ID;
-    @Value("#{data['kakao.redirect_uri']}")
+    @Value("${social.kakao.redirect_uri}")
     private String REDIRECT_URI;
-    @Value("#{data['kakao.client_secret']}")
+    @Value("${social.kakao.client_secret}")
     private String CLIENT_SECRET;
 
     private final static String SESSION_STATE = "state_kakao";

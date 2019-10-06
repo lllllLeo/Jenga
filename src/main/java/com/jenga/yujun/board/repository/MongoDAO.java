@@ -1,4 +1,4 @@
-package com.jenga.yujun.board.dao;
+package com.jenga.yujun.board.repository;
 
 
 import com.jenga.yujun.board.dto.MongoDTO;

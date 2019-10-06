@@ -1,6 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8" %>
-<jsp:include page="memComponent.jsp"/>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:include page="memComponent.html"/>
 
 
 <style>
@@ -30,11 +29,11 @@
 </style>
 
 
-<div style="width:auto; height:auto;" class="subscribe-line-transparent">
+<div th:style="'width:auto; height:auto;'" class="subscribe-line-transparent">
 
     <video autoplay muted loop id="backgroundVideo" style="object-fit: fill;">
 
-        <source src="${pageContext.request.contextPath}/resources/assets/video/jenga.mp4" type="video/mp4">
+        <source th:src="@{static-resource/assets/video/jenga.mp4}" type="video/mp4">
 
     </video>
 
@@ -86,8 +85,8 @@
 
 </div>
 
-<script src="${pageContext.request.contextPath}/resources/js/modal/memberModal.js"></script>
-<script src="${pageContext.request.contextPath}/resources/js/member.js"></script>
+<script th:src="@{/static-resource/js/modal/memberModal.js}"></script>
+<script th:src="@{/static-resource/js/member.js}"></script>
 
 <script>
 

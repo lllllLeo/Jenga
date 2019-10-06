@@ -7,8 +7,8 @@ function requireJs(url){
 }
 
 (function(){
-    requireJs("/resources/js/common.js");
-    requireJs("/resources/js/member.js");
+    requireJs("/js/common.js");
+    requireJs("/js/member.js");
 })();
 
 
@@ -269,7 +269,7 @@ function makeRecoverModal(){
 function makeModifyMyProfileModal(){
 
 
-    let $img = $("<img>").attr("src", "").attr("onerror", "this.src='${pageContext.request.contextPath}/resources/assets/img/image_placeholder.jpg'").addClass("w-100");
+    let $img = $("<img>").attr("src", "").attr("onerror", "this.src='@{static-resource/assets/img/image_placeholder.jpg}'").addClass("w-100");
     let $inputTitle = $("<input>").attr("name", "title").attr("placeholder", "제목을 입력하세요..").addClass("form-control border-input");
     let $inputGroup = $("<input>").attr("name", "group").attr("placeholder", "지역 혹은 소속된 그룹을 입력하세요..").addClass("form-control border-input");
     let $inputLink = $("<input>").attr("name", "link").attr("placeholder", "연결할 링크를 입력하세요.").addClass("form-control border-input");

@@ -8,7 +8,7 @@ import java.util.Map;
 @Component("tempPasswordEmailForm")
 public class TempPasswordEmailForm extends EmailForm {
 
-    @Value("#{props['temp_password']}")
+    @Value("${email.temp_password}")
     private String filePath;
 
     public TempPasswordEmailForm() {

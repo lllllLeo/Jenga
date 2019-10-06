@@ -23,11 +23,11 @@ import java.util.concurrent.ExecutionException;
 @Component
 public class NaverLoginUtil implements LoginUtil {
         /* 인증 */
-        @Value("#{data['naver.client_id']}")
+        @Value("${social.naver.client_id}")
         private  String CLIENT_ID;
-        @Value("#{data['naver.client_secret']}")
+        @Value("${social.naver.client_secret}")
         private  String CLIENT_SECRET;
-        @Value("#{data['naver.redirect_uri']}")
+        @Value("${social.naver.redirect_uri}")
         private  String REDIRECT_URI;
         private final static String SESSION_STATE = "state_naver";
         /*네이버 프로필 조회*/

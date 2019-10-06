@@ -18,11 +18,11 @@ import java.util.concurrent.ExecutionException;
 @Component
 public class FacebookLoginUtil implements LoginUtil{
     /* 인증 */
-    @Value("#{data['facebook.client_id']}")
+    @Value("${social.facebook.client_id}")
     private  String CLIENT_ID;
-    @Value("#{data['facebook.client_secret']}")
+    @Value("${social.facebook.client_secret}")
     private  String CLIENT_SECRET;
-    @Value("#{data['facebook.redirect_uri']}")
+    @Value("${social.facebook.redirect_uri}")
     private  String REDIRECT_URI;
     private final static String SESSION_STATE = "state_facebook";
     private final static String PROFILE_API_URL ="https://graph.facebook.com/v3.1/me?fields=id,email,name";

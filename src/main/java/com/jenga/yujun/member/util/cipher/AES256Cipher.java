@@ -19,8 +19,8 @@ import java.security.NoSuchAlgorithmException;
 public class AES256Cipher {
     
     //private static volatile AES256Cipher INSTANCE;
-    
-    @Value("#{data['aes.secretkey']}")
+
+    @Value("${aes.secretkey}")
      private String secretKey; //32bit
      private String IV = ""; //16bit
     
@@ -28,7 +28,7 @@ public class AES256Cipher {
      //디폴트생성자
     public AES256Cipher() {
     }
-    
+
     @PostConstruct
     public void setIV() {
         IV = secretKey.substring(0,16);

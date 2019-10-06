@@ -44,14 +44,14 @@ public class BoardController {
 
     private FileIOUtil fileIOUtil;
 
-    @Value("#{data['image.block_path']}")
+    @Value("${image_resource.block_path}")
     private String imagePath;
-    @Value("#{data['bookmark.root_path']}")
+    @Value("${image_resource.root_path}")
     private String imageRootPath;
 
-    @Value("#{data['bookmark.root_path']}")
+    @Value("${bookmark.root_path}")
     private String bookmarkPath;
-    @Value("#{data['bookmark.absolute_path']}")
+    @Value("${bookmark.absolute_path}")
     private String bookmarkAbsolutePath;
 
 

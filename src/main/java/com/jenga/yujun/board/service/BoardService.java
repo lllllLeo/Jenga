@@ -2,7 +2,7 @@ package com.jenga.yujun.board.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import com.jenga.yujun.board.dao.BoardDAO;
+import com.jenga.yujun.board.repository.BoardDAO;
 import com.jenga.yujun.board.dto.BlockPathDTO;
 import com.jenga.yujun.board.dto.BoardDTO;
 import com.jenga.yujun.board.util.BlockCompType;
@@ -38,7 +38,7 @@ public class BoardService {
 
     private final ObjectMapper mapper = new ObjectMapper();
 
-    @Value("#{data['bookmark.root_path']}")
+    @Value("${bookmark.root_path}")
     private String bookmark_absolute_path;
 
     @Autowired
